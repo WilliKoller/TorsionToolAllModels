@@ -35,3 +35,7 @@ note3: If you only wish to adjust the femoral geometry (and not the tibial
  changes by Willi Koller for Lenhart model
     Lenhart model - need to adjust Ligament locations!
     also rotate additional geometries of foot
+
+16/03/2023
+ changes by Willi Koller for Lenhart model
+    should work now with ligaments and additional geometries

@@ -64,25 +64,25 @@ addpath(genpath(pwd))
 % system rotation. This method is not applicable with Rajagopal model
 % because it does not have these elements...
 
-model = 'Rajagopal/Rajagopal2015.osim';
-GeometryFolder = 'Rajagopal/Geometry';
+% model = 'Rajagopal/Rajagopal2015.osim';
+% GeometryFolder = 'Rajagopal/Geometry';
+% applyTibiaTorsionToJointOffset = 1;
+% % measured by Hans, Basilio and Willi with Sangeux
+% % 2015 (Femur, doi:10.1097/RCT.0000000000000161) and Yan 2019 (Tibia,
+% % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6803189/)
+% default_Anteversion = 21; 
+% default_NeckShaftAngle = 121;
+% default_TibiaTorsion = 24;
+
+model = 'Lernagopal/Lernagopal_41_OUF.osim';
+GeometryFolder = 'Lernagopal/Geometry';
 applyTibiaTorsionToJointOffset = 1;
-% measured by Hans, Basilio and Willi with Sangeux
+% same as Rajagopal - measured by Hans, Basilio and Willi with Sangeux
 % 2015 (Femur, doi:10.1097/RCT.0000000000000161) and Yan 2019 (Tibia,
 % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6803189/)
 default_Anteversion = 21; 
 default_NeckShaftAngle = 121;
 default_TibiaTorsion = 24;
-
-% model = 'Lernagopal/Lernagopal_41_OUF.osim';
-% GeometryFolder = 'Lernagopal/Geometry';
-% applyTibiaTorsionToJointOffset = 1;
-% % same as Rajagopal - measured by Hans, Basilio and Willi with Sangeux
-% 2015 (Femur, doi:10.1097/RCT.0000000000000161) and Yan 2019 (Tibia,
-% https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6803189/)
-% default_Anteversion = 21; 
-% default_NeckShaftAngle = 121;
-% default_TibiaTorsion = 24;
 
 % model = 'gait2392_genericsimplOS4.osim';
 % GeometryFolder = 'C:\OpenSim 4.2\Geometry';
@@ -112,11 +112,10 @@ default_TibiaTorsion = 24;
 
 markerset = 'MarkerSet.xml'; 
 
-
 deform_bone = 'F'; 
 which_leg = 'R'; 
-angle_AV_right = 52.3; % right anteversion angle (in degrees) %
-angle_NS_right = 135.2; % right neck-shaft angle (in degrees) %
+angle_AV_right = 30.4; % right anteversion angle (in degrees) %
+angle_NS_right = 140.9; % right neck-shaft angle (in degrees) %
 deformed_model = ['rightNSA' num2str(angle_NS_right) '_rightAVA' num2str(angle_AV_right) ];
 
 make_PEmodel( model, deformed_model, markerset, deform_bone, which_leg, angle_AV_right - default_Anteversion, angle_NS_right - default_NeckShaftAngle, GeometryFolder);
