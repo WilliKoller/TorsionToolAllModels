@@ -1,6 +1,6 @@
 %-------------------------------------------------------------------------%
 % Copyright (c) 2021 % Kirsten Veerkamp, Hans Kainz, Bryce A. Killen,     %
-%    Hulda Jónasdóttir, Marjolein M. van der Krogt     		              %
+%    Hulda Jï¿½nasdï¿½ttir, Marjolein M. van der Krogt     		              %
 %                                                                         %
 % Licensed under the Apache License, Version 2.0 (the "License");         %
 % you may not use this file except in compliance with the License.        %
@@ -13,7 +13,7 @@
 % implied. See the License for the specific language governing            %
 % permissions and limitations under the License.                          %
 %                                                                         %
-%    Authors: Hulda Jónasdóttir & Kirsten Veerkamp                        %
+%    Authors: Hulda Jï¿½nasdï¿½ttir & Kirsten Veerkamp                        %
 %                            February 2021                                %
 %    email:    k.veerkamp@amsterdamumc.nl                                 % 
 % ----------------------------------------------------------------------- %
@@ -64,25 +64,29 @@ addpath(genpath(pwd))
 % system rotation. This method is not applicable with Rajagopal model
 % because it does not have these elements...
 
-% model = 'Rajagopal/Rajagopal2015.osim';
-% GeometryFolder = 'Rajagopal/Geometry';
-% applyTibiaTorsionToJointOffset = 1;
-% % measured by Hans, Basilio and Willi with Sangeux
-% % 2015 (Femur, doi:10.1097/RCT.0000000000000161) and Yan 2019 (Tibia,
-% % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6803189/)
-% default_Anteversion = 21; 
-% default_NeckShaftAngle = 121;
-% default_TibiaTorsion = 24;
-
-model = 'Lernagopal/Lernagopal_41_OUF.osim';
-GeometryFolder = 'Lernagopal/Geometry';
+model = 'Rajagopal/Rajagopal2015.osim';
+GeometryFolder = 'Rajagopal/Geometry';
 applyTibiaTorsionToJointOffset = 1;
-% same as Rajagopal - measured by Hans, Basilio and Willi with Sangeux
+% measured by Hans, Basilio and Willi with Sangeux
 % 2015 (Femur, doi:10.1097/RCT.0000000000000161) and Yan 2019 (Tibia,
 % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6803189/)
 default_Anteversion = 21; 
 default_NeckShaftAngle = 121;
 default_TibiaTorsion = 24;
+% %Method after Hernandez - measured by Willi
+% default_Anteversion = 13; 
+
+% model = 'Lernagopal/Lernagopal_41_OUF.osim';
+% GeometryFolder = 'Lernagopal/Geometry';
+% applyTibiaTorsionToJointOffset = 1;
+% % same as Rajagopal - measured by Hans, Basilio and Willi with Sangeux
+% % 2015 (Femur, doi:10.1097/RCT.0000000000000161) and Yan 2019 (Tibia,
+% % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6803189/)
+% default_Anteversion = 21; 
+% default_NeckShaftAngle = 121;
+% default_TibiaTorsion = 24;
+% %Method after Hernandez - measured by Willi
+% default_Anteversion = 13; 
 
 % model = 'gait2392_genericsimplOS4.osim';
 % GeometryFolder = 'C:\OpenSim 4.2\Geometry';
@@ -114,8 +118,8 @@ markerset = 'MarkerSet.xml';
 
 deform_bone = 'F'; 
 which_leg = 'R'; 
-angle_AV_right = 30.4; % right anteversion angle (in degrees) %
-angle_NS_right = 140.9; % right neck-shaft angle (in degrees) %
+angle_AV_right = 32; % right anteversion angle (in degrees) %
+angle_NS_right = 165; % right neck-shaft angle (in degrees) %
 deformed_model = ['rightNSA' num2str(angle_NS_right) '_rightAVA' num2str(angle_AV_right) ];
 
 make_PEmodel( model, deformed_model, markerset, deform_bone, which_leg, angle_AV_right - default_Anteversion, angle_NS_right - default_NeckShaftAngle, GeometryFolder);
@@ -126,8 +130,8 @@ markerset = [deformed_model '_' markerset];
 
 deform_bone = 'F'; 
 which_leg = 'L'; 
-angle_AV_left = 35.7; % left anteversion angle (in degrees) %
-angle_NS_left = 136.8; % left neck-shaft angle (in degrees) %
+angle_AV_left = 38; % left anteversion angle (in degrees) %
+angle_NS_left = 121; % left neck-shaft angle (in degrees) %
 deformed_model = [ 'leftNSA' num2str(angle_NS_left) '_leftAVA' num2str(angle_AV_left)]; 
 make_PEmodel( model, deformed_model, markerset, deform_bone, which_leg, angle_AV_left - default_Anteversion, angle_NS_left - default_NeckShaftAngle, GeometryFolder);
 
