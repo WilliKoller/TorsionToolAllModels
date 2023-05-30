@@ -1,6 +1,6 @@
 %-------------------------------------------------------------------------%
 % Copyright (c) 2021 % Kirsten Veerkamp, Hans Kainz, Bryce A. Killen,     %
-%    Hulda J�nasd�ttir, Marjolein M. van der Krogt     		              %
+%    Hulda Jónasdóttir, Marjolein M. van der Krogt     		              %
 %                                                                         %
 % Licensed under the Apache License, Version 2.0 (the "License");         %
 % you may not use this file except in compliance with the License.        %
@@ -13,9 +13,14 @@
 % implied. See the License for the specific language governing            %
 % permissions and limitations under the License.                          %
 %                                                                         %
-%    Authors: Hulda J�nasd�ttir & Kirsten Veerkamp                        %
+%    Authors: Hulda Jónasdóttir & Kirsten Veerkamp                        %
 %                            February 2021                                %
 %    email:    k.veerkamp@amsterdamumc.nl                                 % 
+%                                                                         %
+%  modified by Elias Wallnöfer & Willi Koller   (Mai 2023)                %
+%                                                                         %
+%  email: willi.koller@univie.ac.at                                       %
+%                                                                         %
 % ----------------------------------------------------------------------- %
 %%%  main script to create opensim model with personalised geometries   %%%
 % Give the subject-specific femoral anteversion (AV) and neck-shaft (NS) angles,
@@ -34,20 +39,41 @@
 % note3: If you only wish to adjust the femoral geometry (and not the tibial
 % 	torsion), set the input to the tibial torsion to 0 degrees (=default
 % 	tibial torsion in generic femur).
+% note4: Default angles of the generic OpenSim model geometry should be
+%   measured with the same method (e.g. Hernandez, ...) which you use for your 
+%   partipants to ensure consistency.
+
+
+% applyTibiaTorsionToJointOffset = 0 is the original method where torsion
+% is applied via translation and rotation axis and not via body coordinate
+% system rotation. This method is not applicable with Rajagopal model
+% because it does not have these elements...
+
 %
 % 
 % 12/26/2022
-% changes Elias Wallnoefer:
-% Femur torsion should now work with RajagopalModel
-% FinalModel = "leftNSA*"
-%
-% ! Tibia torsion does not yet work - hard coded line-numbers of XML need to
-% be fixed in tibia.m and tibia_locationInParent-rotation retested +
-% adapted for both models
-% 21/03/2023
-% changes by Willi Koller
-% Tool works now with all models and muscle types including wrap objects
-% etc.
+%  changes Elias Wallnoefer:
+%  Femur torsion should now work with RajagopalModel
+%  FinalModel = "leftNSA*"
+% 
+%  ! Tibia torsion does not yet work - hard coded line-numbers of XML need to
+%  be fixed in tibia.m and tibia_locationInParent-rotation retested + adapted for both models
+% 
+% 
+% 14/03/2023
+%  changes by Willi Koller
+%     Femur and Tibia Torsion should now work with all models, testet with gait2392, Hamner, Rajagopal, Lernagopal
+%     WrapObjects in the proximal part of the femur (part which is rotated) are not supported yet, you have to adjust the location and rotation manually.
+%     A message is written to the console if this is the case!
+% 
+% 15/03/2023
+%  changes by Willi Koller for Lenhart model
+%     Lenhart model - need to adjust Ligament locations!
+%     also rotate additional geometries of foot
+% 
+% 16/03/2023
+%  changes by Willi Koller for Lenhart model
+%     should work now with ligaments and additional geometries
 
 % ----------------------------------------------------------------------- %
 clear all; close all
@@ -59,16 +85,13 @@ try
 end
 addpath(genpath(pwd))
 
-% applyTibiaTorsionToJointOffset = 0 is the original method where torsion
-% is applied via translation and rotation axis and not via body coordinate
-% system rotation. This method is not applicable with Rajagopal model
-% because it does not have these elements...
-
+%% find the block for your model, and uncomment it.
+% don't forget to comment all other blocks!
+%% values for Rajagopal as base model
 model = 'Rajagopal/Rajagopal2015.osim';
 GeometryFolder = 'Rajagopal/Geometry';
 applyTibiaTorsionToJointOffset = 1;
-% measured by Hans, Basilio and Willi with Sangeux
-% 2015 (Femur, doi:10.1097/RCT.0000000000000161) and Yan 2019 (Tibia,
+% measured by Hans, Basilio and Willi with Sangeux 2015 (Femur, doi:10.1097/RCT.0000000000000161) and Yan 2019 (Tibia,
 % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6803189/)
 default_Anteversion = 21; 
 default_NeckShaftAngle = 121;
@@ -76,6 +99,7 @@ default_TibiaTorsion = 24;
 % %Method after Hernandez - measured by Willi
 % default_Anteversion = 13; 
 
+%% values for Lernagopal (Lerner + Rajagopal) as base model
 % model = 'Lernagopal/Lernagopal_41_OUF.osim';
 % GeometryFolder = 'Lernagopal/Geometry';
 % applyTibiaTorsionToJointOffset = 1;
@@ -88,6 +112,8 @@ default_TibiaTorsion = 24;
 % %Method after Hernandez - measured by Willi
 % default_Anteversion = 13; 
 
+
+%% values for gait2392 as base model
 % model = 'gait2392_genericsimplOS4.osim';
 % GeometryFolder = 'C:\OpenSim 4.2\Geometry';
 % % applyTibiaTorsionToJointOffset = 0;
@@ -97,6 +123,7 @@ default_TibiaTorsion = 24;
 % default_NeckShaftAngle = 121;
 % default_TibiaTorsion = 24;
 
+%% values for Lenhart as base model
 % model = 'Lenhart/OActiveLeft_modified.osim';
 % model = 'Lenhart/OActiveRight_modified.osim';
 % GeometryFolder = 'Lenhart/Geometry';
@@ -106,6 +133,7 @@ default_TibiaTorsion = 24;
 % default_NeckShaftAngle = 121;
 % default_TibiaTorsion = 24;
 
+%% values for Hamner as base model
 % model = 'Hamner/Hamner_baseModel.osim';
 % GeometryFolder = 'Hamner/Geometry';
 % applyTibiaTorsionToJointOffset = 1;

@@ -1,4 +1,14 @@
-1. Open the main script (MAIN_TorsionTool).
+%                                                                         %
+%    Authors: Hulda Jónasdóttir & Kirsten Veerkamp                        %
+%                            February 2021                                %
+%    email:    k.veerkamp@amsterdamumc.nl                                 % 
+%                                                                         %
+%  modified by Elias Wallnöfer & Willi Koller   (Mai 2023)                %
+%                                                                         %
+%  email: willi.koller@univie.ac.at                                       %
+%                                                                         %
+
+1. Open the main script (MAIN_TorsionToolAllModels).
 2. Give the subject-specific femoral anteversion (AV) and neck-shaft (NS) angles,
 	as well as the tibial torsion (TT) angles, as input for the right and left leg.
 	Lines which require these inputs are indicated by a % at the end of the line.
@@ -15,6 +25,14 @@ note2: Adjust the MarkerSet.xml in the main folder to your marker set,
 note3: If you only wish to adjust the femoral geometry (and not the tibial
 	torsion), set the input to the tibial torsion to 0 degrees (=default
 	tibial torsion in generic femur).
+note4: Default angles of the generic OpenSim model geometry should be
+  measured with the same method (e.g. Hernandez, ...) which you use for your 
+  partipants to ensure consistency.
+
+applyTibiaTorsionToJointOffset = 0 is the original method where torsion
+is applied via translation and rotation axis and not via body coordinate
+system rotation. This method is not applicable with Rajagopal model
+because it does not have these elements...
 
 12/26/2022
  changes Elias Wallnoefer:
