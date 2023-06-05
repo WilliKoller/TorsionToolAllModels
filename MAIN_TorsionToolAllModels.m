@@ -42,6 +42,13 @@
 % note4: Default angles of the generic OpenSim model geometry should be
 %   measured with the same method (e.g. Hernandez, ...) which you use for your 
 %   partipants to ensure consistency.
+% note5: in models with WrapObjects it is MANDATORY to check muscle moment
+%   arms for each movement before running muscle specific analysis (e.g.
+%   Static Optimization). 
+%   It can happen that muscles pull through WrapObjects, this has to be
+%   avoided. One possible solution to tackle this problem is to resize the 
+%   WrapObjects.
+%   You can use the "checkMuscleMomentArms" script to identfiy problems.
 
 
 % applyTibiaTorsionToJointOffset = 0 is the original method where torsion
