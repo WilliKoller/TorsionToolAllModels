@@ -31,7 +31,7 @@ function [ ready ] = make_PEmodel( answerModel, deformed_model, answerMarkerSet,
 place = [cd '\DEFORMED_MODEL\'];
 
 % what model you want to deform
-if strcmp(which_leg, 'R') == 1 &&  strcmp(deform_bone, 'F') == 1;
+if strcmp(which_leg, 'R') == 1 &&  strcmp(deform_bone, 'F') == 1;  % only done in the first iteration
         answerModel_tmp = [ answerModel];
         answerMarkerSet_tmp = [ answerMarkerSet];
 else
@@ -45,7 +45,7 @@ if ~exist("DEFORMED_MODEL\Geometry", 'dir')
     mkdir("DEFORMED_MODEL\Geometry")
 end
 
-if strcmp(deform_bone, 'F') && strcmp(which_leg, 'R')
+if strcmp(deform_bone, 'F') && strcmp(which_leg, 'R') % only done in the first iteration
     for i = 1 : numel(dataModel.OpenSimDocument.Model.BodySet.objects.Body)
         if isfield(dataModel.OpenSimDocument.Model.BodySet.objects.Body{1,i}, 'attached_geometry')
             if isfield(dataModel.OpenSimDocument.Model.BodySet.objects.Body{1,i}.attached_geometry, 'Mesh')
@@ -275,7 +275,7 @@ for i = 1 : numel(GeometryPathStarts)
     i1 = strfind(section, '<objects');
     i2 = strfind(section, '</objects');
     if ~isempty(i2)
-        section = section(i1:i2);
+        section = section(i1(1):i2(1));
         nameIdx = strfind(section, 'name=');
         absStart = 0;
         absEnd = 0;
@@ -290,8 +290,8 @@ for i = 1 : numel(GeometryPathStarts)
             objType = section(tmp1 : nameIdx(j)-2);
             endIdx = strfind(section(tmp1 : end), ['</' objType]);
             endIdx = tmp1 + endIdx;
-            section(tmp1-1 : endIdx + length(objType) +1);
-            fullText{j} = section(tmp1-1 : endIdx + length(objType) +1);
+            section(tmp1-1 : endIdx(1) + length(objType) +1);
+            fullText{j} = section(tmp1-1 : endIdx(1) + length(objType) +1);
             if j == 1
                 absStart = tmp1-1;
             end

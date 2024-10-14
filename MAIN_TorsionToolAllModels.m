@@ -94,17 +94,17 @@ addpath(genpath(pwd))
 
 %% find the block for your model, and uncomment it.
 % don't forget to comment all other blocks!
-%% values for Rajagopal as base model
-model = 'Rajagopal/Rajagopal2015.osim';
-GeometryFolder = 'Rajagopal/Geometry';
-applyTibiaTorsionToJointOffset = 1;
-% measured by Hans, Basilio and Willi with Sangeux 2015 (Femur, doi:10.1097/RCT.0000000000000161) and Yan 2019 (Tibia,
-% https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6803189/)
-default_Anteversion = 21; 
-default_NeckShaftAngle = 121;
-default_TibiaTorsion = 24;
-% %Method after Hernandez - measured by Willi
-% default_Anteversion = 13; 
+% %% values for Rajagopal as base model
+% model = 'Rajagopal/Rajagopal2015.osim';
+% GeometryFolder = 'Rajagopal/Geometry';
+% applyTibiaTorsionToJointOffset = 1;
+% % measured by Hans, Basilio and Willi with Sangeux 2015 (Femur, doi:10.1097/RCT.0000000000000161) and Yan 2019 (Tibia,
+% % https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6803189/)
+% default_Anteversion = 21; 
+% default_NeckShaftAngle = 121;
+% default_TibiaTorsion = 24;
+% % %Method after Hernandez - measured by Willi
+% % default_Anteversion = 13; 
 
 %% values for Lernagopal (Lerner + Rajagopal) as base model
 % model = 'Lernagopal/Lernagopal_41_OUF.osim';
@@ -130,15 +130,14 @@ default_TibiaTorsion = 24;
 % default_NeckShaftAngle = 121;
 % default_TibiaTorsion = 24;
 
-%% values for Lenhart as base model
-% model = 'Lenhart/OActiveLeft_modified.osim';
+% values for Lenhart as base model
+model = 'Lenhart/OActiveLeft_modified.osim';
 % model = 'Lenhart/OActiveRight_modified.osim';
-% GeometryFolder = 'Lenhart/Geometry';
-% applyTibiaTorsionToJointOffset = 0;
-% not measured yet!!!!  you have to measure this on the OpenSim Geometry with the same method as with your participants!
-% default_Anteversion = 21; 
-% default_NeckShaftAngle = 121;
-% default_TibiaTorsion = 24;
+GeometryFolder = 'Lenhart/Geometry';
+applyTibiaTorsionToJointOffset = 0;
+default_Anteversion = 21; 
+default_NeckShaftAngle = 121;
+default_TibiaTorsion = 24;
 
 %% values for Hamner as base model
 % model = 'Hamner/Hamner_baseModel.osim';
@@ -153,8 +152,8 @@ markerset = 'MarkerSet.xml';
 
 deform_bone = 'F'; 
 which_leg = 'R'; 
-angle_AV_right = 32; % right anteversion angle (in degrees) %
-angle_NS_right = 165; % right neck-shaft angle (in degrees) %
+angle_AV_right = 26; % right anteversion angle (in degrees) %
+angle_NS_right = 121; % right neck-shaft angle (in degrees) %
 deformed_model = ['rightNSA' num2str(angle_NS_right) '_rightAVA' num2str(angle_AV_right) ];
 
 make_PEmodel( model, deformed_model, markerset, deform_bone, which_leg, angle_AV_right - default_Anteversion, angle_NS_right - default_NeckShaftAngle, GeometryFolder);
@@ -165,7 +164,7 @@ markerset = [deformed_model '_' markerset];
 
 deform_bone = 'F'; 
 which_leg = 'L'; 
-angle_AV_left = 38; % left anteversion angle (in degrees) %
+angle_AV_left = 26; % left anteversion angle (in degrees) %
 angle_NS_left = 121; % left neck-shaft angle (in degrees) %
 deformed_model = [ 'leftNSA' num2str(angle_NS_left) '_leftAVA' num2str(angle_AV_left)]; 
 make_PEmodel( model, deformed_model, markerset, deform_bone, which_leg, angle_AV_left - default_Anteversion, angle_NS_left - default_NeckShaftAngle, GeometryFolder);
@@ -177,7 +176,7 @@ markerset = [deformed_model '_' markerset];
 deformed_model = 'RT15'; 
 deform_bone = 'T'; 
 which_leg = 'R';
-angle_TT_right = 24; % right tibial torsion angle (in degrees) %
+angle_TT_right = 65; % right tibial torsion angle (in degrees) %
 deformed_model = [ 'rightTT' num2str(angle_TT_right) ];
 
 make_PEmodel( model, deformed_model, markerset, deform_bone, which_leg, angle_TT_right -default_TibiaTorsion, [], GeometryFolder, applyTibiaTorsionToJointOffset);
@@ -189,7 +188,7 @@ markerset = [deformed_model '_' markerset];
 deformed_model = 'LT5';
 deform_bone = 'T';
 which_leg = 'L'; 
-angle_TT_left = 24; % left tibial torsion angle (in degrees) %
+angle_TT_left = 45; % left tibial torsion angle (in degrees) %
 deformed_model = [ 'leftTT' num2str(angle_TT_left) ];
 
 make_PEmodel( model, deformed_model, markerset, deform_bone, which_leg, angle_TT_left -default_TibiaTorsion, [], GeometryFolder, applyTibiaTorsionToJointOffset);

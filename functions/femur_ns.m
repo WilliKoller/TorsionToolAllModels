@@ -101,7 +101,7 @@ Rz_FA = [cos(FA_angle) -sin(FA_angle) 0; sin(FA_angle) cos(FA_angle) 0; 0 0 1];%
 RotMatrix =  Rz_FA * Ry_NS;
 % The top of the femoral bone (head and greater trochanger) rotated around the femoral shaft axis, when the origin is in the center of the greater/lesser torchanter
 femur_rot1_all = []; innerBox_rot1 = []; polys_innerNumber = [];
-for i= 1: size(femur_NewAxis)
+for i= 1: size(femur_NewAxis, 1)
     if ismember(femur_NewAxis(i,:), innerBox) == 1
         item_innerBox =( RotMatrix * femur_NewAxis(i,:)')';
         femur_rot1_all(i,:) = item_innerBox(:,:);
@@ -126,7 +126,7 @@ for k = 1:size(zeroMatrix,1)
 end
 
 femurMA_rot1_all = [];
-for i= 1: size(femurMA_NewAxis)
+for i= 1: size(femurMA_NewAxis, 1)
     if ismember(femurMA_NewAxis(i,:), innerBoxMA) == 1
         item_innerBoxMA =( RotMatrix * femurMA_NewAxis(i,:)')';
         femurMA_rot1_all(i,:) = item_innerBoxMA(:,:);
@@ -135,7 +135,7 @@ for i= 1: size(femurMA_NewAxis)
     end
 end
 femurMarker_rot1_all = [];
-for i= 1: size(femurMarker_NewAxis)
+for i= 1: size(femurMarker_NewAxis, 1)
     if ismember(femurMarker_NewAxis(i,:), innerBoxMarker) == 1
         item_innerBoxMarker =( RotMatrix * femurMarker_NewAxis(i,:)')';
         femurMarker_rot1_all(i,:) = item_innerBoxMarker(:,:);
@@ -212,7 +212,7 @@ middlevector = bottommiddlebox-topmiddlebox;
 distanceMiddleBox = norm(middlevector);
 polys_middle_Number = [];
 femur_rot2_all = []; middleBox_rot2 = []; middleBox_before_rot = [];
-for i= 1:size(femur_rot1_all)
+for i= 1:size(femur_rot1_all, 1)
     if ismember(femur_rot1_all(i,:), middleBox) == 1
         middleBox_before_rot = [middleBox_before_rot; femur_rot1_all(i,:)];
         a_proj = [femur_rot1_all(i,1) femur_rot1_all(i,2) femur_rot1_all(i,3)] - topmiddlebox;
@@ -242,7 +242,7 @@ for k = 1:size(zeroMatrix,1)
     end
 end
 femurMA_rot2_all = []; middleBoxMA_rot2 = []; middleBoxMA_before_rot = [];
-for i= 1:size(femurMA_rot1_all)
+for i= 1:size(femurMA_rot1_all, 1)
     if ismember(femurMA_rot1_all(i,:), middleBoxMA) == 1
         middleBoxMA_before_rot = [middleBoxMA_before_rot; femurMA_rot1_all(i,:)];
         a_proj = [femurMA_rot1_all(i,1) femurMA_rot1_all(i,2) femurMA_rot1_all(i,3)] - topmiddlebox;
@@ -260,7 +260,7 @@ for i= 1:size(femurMA_rot1_all)
 end
 
 femurMarker_rot2_all = []; middleBoxMarker_rot2 = []; middleBoxMarker_before_rot = [];
-for i= 1:size(femurMarker_rot1_all)
+for i= 1:size(femurMarker_rot1_all, 1)
     if ismember(femurMarker_rot1_all(i,:), middleBoxMarker) == 1
         middleBoxMarker_before_rot = [middleBoxMarker_before_rot; femurMarker_rot1_all(i,:)];
         a_proj = [femurMarker_rot1_all(i,1) femurMarker_rot1_all(i,2) femurMarker_rot1_all(i,3)] - topmiddlebox;
